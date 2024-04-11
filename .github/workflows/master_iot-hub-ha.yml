@@ -53,4 +53,4 @@ jobs:
           app-name: 'IOT-HUB-HA'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1EE9CB46AE62473CB6FB7AFECD917D58 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3977390FF8744D7391C647267B1D5916 }}
