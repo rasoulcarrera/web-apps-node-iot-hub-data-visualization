@@ -3,9 +3,9 @@ const http = require("http");
 const WebSocket = require("ws");
 const path = require("path");
 const EventHubReader = require("./scripts/event-hub-reader.js");
-// const iotHubConnectionString = require("dotenv").config();
-// const eventHubConsumerGroup = require("dotenv").config();
-const iotHubConnectionString = process.env.IotHubConnectionString;
+const iotHubConnectionString = require("dotenv").config();
+const eventHubConsumerGroup = require("dotenv").config();
+// const iotHubConnectionString = process.env.IotHubConnectionString;
 if (!iotHubConnectionString) {
   console.error(
     `Environment variable IotHubConnectionString must be specified.`
@@ -14,7 +14,7 @@ if (!iotHubConnectionString) {
 }
 console.log(`Using IoT Hub connection string [${iotHubConnectionString}]`);
 
-const eventHubConsumerGroup = process.env.EventHubConsumerGroup;
+// const eventHubConsumerGroup = process.env.EventHubConsumerGroup;
 console.log(eventHubConsumerGroup);
 if (!eventHubConsumerGroup) {
   console.error(
