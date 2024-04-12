@@ -25,6 +25,29 @@
     <div>
         <canvas id="iotChart"></canvas>
     </div>
+    <ul id="data-list"></ul>
+
+    <script>
+        // Create a new WebSocket connection
+        const socket = new WebSocket('ws://your-azure-web-app-domain');
+
+        // Function to handle received messages
+        socket.onmessage = function(event) {
+            // Parse the received JSON data
+            const data = JSON.parse(event.data);
+            
+            // Display the received data on the HTML page
+            const dataList = document.getElementById('data-list');
+            const listItem = document.createElement('li');
+            listItem.textContent = JSON.stringify(data);
+            dataList.appendChild(listItem);
+        };
+
+        // Function to handle WebSocket errors
+        socket.onerror = function(error) {
+            console.error('WebSocket error:', error);
+        };
+    </script>
 </body>
 
 </html>
