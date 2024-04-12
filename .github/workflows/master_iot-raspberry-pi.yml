@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - IOT-HUB-HA
+name: Build and deploy Node.js app to Azure Web App - IoT-Raspberry-Pi
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -26,12 +26,15 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
-      
+
+      - name: Zip artifact for deployment
+        run: zip release.zip ./* -r
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: node-app
-          path: .
+          path: release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -39,18 +42,30 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+    permissions:
+      id-token: write #This is required for requesting the JWT
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: node-app
+
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
       
-      - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v2
-        id: deploy-to-webapp
+      - name: Login to Azure
+        uses: azure/login@v1
         with:
-          app-name: 'IOT-HUB-HA'
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_E6F3A18639244A959FAA345755C69037 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_CB733AC4CB154CB1A1844359B9A05CF9 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C8C69574AE994A36AA42B2E995F616E4 }}
+
+      - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'IoT-Raspberry-Pi'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3977390FF8744D7391C647267B1D5916 }}
+          
