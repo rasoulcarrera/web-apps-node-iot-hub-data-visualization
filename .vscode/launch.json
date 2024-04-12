@@ -15,8 +15,8 @@
             "sourceMaps": true,
             "env": {
                 "NODE_ENV": "local",
-                "IotHubConnectionString": "",
-                "EventHubConsumerGroup": "monitoring"
+                "IotHubConnectionString": "HostName=newiot007.azure-devices.net;DeviceId=iot_pi;SharedAccessKey=anzXjg58WmGQsllBhgY5fV2WSRCDayFD/AIoTDhWn+c=",
+                "EventHubConsumerGroup": "cloud-shell-storage-westeurope"
             }
         }
     ]
